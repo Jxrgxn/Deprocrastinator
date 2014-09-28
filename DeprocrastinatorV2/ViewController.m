@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-@interface ViewController () <UITableViewDelegate>
+@interface ViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @end
 
@@ -31,4 +31,8 @@
     return 3;
 }
 
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return nil;
+}
 @end
