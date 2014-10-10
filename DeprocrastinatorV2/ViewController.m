@@ -9,6 +9,11 @@
 #import "ViewController.h"
 
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource>
+@property UITextField *text;
+@property NSArray *textArray;
+@property (weak, nonatomic) IBOutlet UITextField *myTextField;
+@property (weak, nonatomic) IBOutlet UITableView *myTableView;
+
 
 @end
 
@@ -26,9 +31,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)onAddButtonPressed:(id)sender {
+    self.myTextField = [];
+}
+
 -(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 5;
+    return 4;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
