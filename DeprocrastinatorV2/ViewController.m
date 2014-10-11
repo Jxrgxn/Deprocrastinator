@@ -8,12 +8,12 @@
 
 #import "ViewController.h"
 
-@interface ViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface ViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 @property UITextField *text;
 @property NSArray *textArray;
 @property (weak, nonatomic) IBOutlet UITextField *myTextField;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
-
+@property (strong, nonatomic) NSMutableArray *thingsToDo;
 
 @end
 
@@ -22,6 +22,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.myTextField.delegate = self;
+    self.thingsToDo = [NSMutableArray new];
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -32,16 +34,33 @@
 }
 
 - (IBAction)onAddButtonPressed:(id)sender {
-    self.myTextField = [];
+    [self.thingsToDo addObject:self.myTextField.text];
+    self.myTextField.text = @"";
+    [self.myTextField resignFirstResponder];
+
 }
 
--(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma UITableViewDataSource
+
+//  Attaches the number of rows in TableView to the number of things stored in
+//  the thingsToDo array.
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return self.thingsToDo.count;
 }
+
+
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return nil;
+    static NSString *cellIdentifier = @"cellRow";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellRow"];
+    if (cell == nil)
+    {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    return cell;
 }
+
+
 @end
