@@ -37,7 +37,7 @@
     [self.thingsToDo addObject:self.myTextField.text];
     self.myTextField.text = @"";
     [self.myTextField resignFirstResponder];
-
+    [self.myTableView reloadData];
 }
 
 #pragma UITableViewDataSource
@@ -59,6 +59,7 @@
     {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    cell.textLabel.text = [self.thingsToDo objectAtIndex:indexPath.row];
     return cell;
 }
 
