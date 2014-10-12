@@ -23,6 +23,7 @@
 {
     [super viewDidLoad];
     self.myTextField.delegate = self;
+    self.myTableView.delegate = self;
     self.thingsToDo = [NSMutableArray new];
 	// Do any additional setup after loading the view, typically from a nib.
 }
@@ -49,17 +50,16 @@
     return self.thingsToDo.count;
 }
 
-
-
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"cellRow";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellRow"];
-    if (cell == nil)
+    if (!cell)
     {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     cell.textLabel.text = [self.thingsToDo objectAtIndex:indexPath.row];
+    cell.detailTextLabel.text = @"testing";
     return cell;
 }
 
