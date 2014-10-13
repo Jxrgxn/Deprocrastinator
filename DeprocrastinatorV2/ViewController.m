@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *myTextField;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (strong, nonatomic) NSMutableArray *thingsToDo;
+@property BOOL isEditing;
 
 @end
 
@@ -25,6 +26,15 @@
     self.myTextField.delegate = self;
     self.myTableView.delegate = self;
     self.thingsToDo = [NSMutableArray new];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    //UIControlEventTouchUpInside will allow the user to cancel their selection by dragging their finger across the screen
+    [button addTarget:self action:@selector(aMethod:) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"Edit" forState:UIControlStateNormal];
+    button.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
+    [self.view addSubview:button];
+
+    self.isEditing = NO;
+
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -59,8 +69,24 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     cell.textLabel.text = [self.thingsToDo objectAtIndex:indexPath.row];
+    cell.textLabel.highlightedTextColor = [UIColor greenColor];
     cell.detailTextLabel.text = @"testing";
     return cell;
+}
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+
+-(void)onEditButtonPressed:(id)sender
+{
+    if (self.isEditing)
+    {
+        //Allow the table to be edited
+    }
+
 }
 
 
