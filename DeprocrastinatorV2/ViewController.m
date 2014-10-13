@@ -27,8 +27,8 @@
     self.myTableView.delegate = self;
     self.thingsToDo = [NSMutableArray new];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    //UIControlEventTouchUpInside will allow the user to cancel their selection by dragging their finger across the screen
-    [button addTarget:self action:@selector(aMethod:) forControlEvents:UIControlEventTouchUpInside];
+//    UIControlEventTouchUpInside will allow the user to cancel their selection by dragging their finger across the screen
+    [button addTarget:self action:@selector(onEditButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [button setTitle:@"Edit" forState:UIControlStateNormal];
     button.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
     [self.view addSubview:button];
@@ -79,12 +79,33 @@
     return YES;
 }
 
+-(void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    [self.myTableView setEditing:editing animated:YES];
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.isEditing == YES)
+    {
+        [self.thingsToDo removeObjectAtIndex:indexPath.row]; //Update the actual data source
+        [self.myTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
 
 -(void)onEditButtonPressed:(id)sender
 {
-    if (self.isEditing)
+    if (!self.isEditing)
     {
-        //Allow the table to be edited
+        self.isEditing = YES;
+        [sender setTitle:@"Done" forState:UIControlStateNormal];
+        [self setEditing:YES animated:YES];
+    }
+    else if (self.isEditing)
+    {
+        self.isEditing = NO;
+        [sender setTitle:@"Edit" forState:UIControlStateNormal];
     }
 
 }
